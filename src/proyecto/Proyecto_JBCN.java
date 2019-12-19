@@ -6,7 +6,7 @@
 // Versión: 4.0                                                     //        
 // Modificaciones (ENUNCIADO):                                      //
 //     - Opciones seleccionadas almacenadas en array bidimensional. //
-//     - Muestra cantidada participantes y ponentes por género.     //
+//     - Muestra participantes y ponentes por género.               //
 //                                                                  //
 // Modificaciones própias (control duplicaciones y buffer):         //            
 //     - Impide que se dupliquen códigos de registro.               //    
@@ -14,7 +14,7 @@
 //     - Resuelto problema buffer valores NO ENTERO con espacios.   //
 //////////////////////////////////////////////////////////////////////
 
-package proyecto;
+package Arrays;
 
 import java.util.Scanner;
 
@@ -98,11 +98,11 @@ public class Proyecto_JBCN {
         
         //int
         int seguir, imprimir, i, j, contImprimir, contRegistros, intentos;
-        seguir = imprimir = i = j = contImprimir = contRegistros = intentos = 0;
+        seguir = imprimir = i = j = contImprimir = contRegistros = intentos=0;
         
         //Contadores de género
         int contMujer, contHombre, contNoResponde, contPonenteHombre,
-            contPonenteMujer, contPonenteNoResponde, porGenero = 0;;
+        contPonenteMujer, contPonenteNoResponde, porGenero = 0;
         contMujer = contHombre = contNoResponde = contPonenteHombre =
         contPonenteHombre = contPonenteMujer = contPonenteNoResponde = porGenero = 0;        
         
@@ -537,7 +537,7 @@ public class Proyecto_JBCN {
                     }
 
                     //Imprimimos los resultados                           
-                    if(sesion == SI_SESION)//Si da sesión, mostramos los datos CON ID sesión
+                    if(sesion.equals(SI_SESION))//Si da sesión, mostramos los datos CON ID sesión
                     {              
                         // Si idSesión es < 10 añadimos un "0" delante para que muestre 2 dígitos
                         if(registros[i][ID_SESION] < DOS_DIGITOS)
@@ -607,7 +607,7 @@ public class Proyecto_JBCN {
                     // ORDENAMOS POR EXPERIENCIA 
                     
                     //Recorremos array y comparamos 'anosExperiencia[i]' con 'anosExperiencia[j]'.  
-                     for(i = 0; i < contRegistros; i++)
+                    for(i = 0; i < contRegistros; i++)
                     {
                         for(j = i + 1; j < contRegistros; j++)
                         {
@@ -665,28 +665,34 @@ public class Proyecto_JBCN {
                 
             }while(!tipoCorrecto);
             
+            //Si usuario elige mostrar participantes/ponentes por género
             if(porGenero == POR_GENERO_MAX)
             {                
                 //Mostramos participantes por género
                 for(i = 0; i < registros.length; i++)
                 {
-                    if(registros[i][GENERO] == MUJER)
+                    //Si es mujer incrementamos 'contMujer'
+                    switch(registros[i][GENERO])
                     {
+                        case MUJER: 
                         contMujer++;
+                        //Si es mujer y ponente, incrementamos 'contPonenteMujer'
                         if(registros[i][SESION] == SESION_MAX)
                         {
                             contPonenteMujer++;
                         }
-                    }else if(registros[i][GENERO] == HOMBRE)
-                    {
+                    //Si es hombre, incrementamos 'contHombre'    
+                        case HOMBRE:
                         contHombre++;
+                        //Si es hombre y ponente, incrementamos 'contPonenteHombre'
                         if(registros[i][SESION] == SESION_MAX)
                         {
                             contPonenteHombre++;
                         }
-                    }else if(registros[i][GENERO] == NO_RESPONDE)
-                    {
+                    //Si no responde, incrementamos 'contNoResponde'    
+                        case NO_RESPONDE: 
                         contNoResponde++;
+                        //Si no responde y es ponente, incrementamos 'contPonenteNoResponde'.
                         if(registros[i][SESION] == SESION_MAX)
                         {
                             contPonenteNoResponde++;
